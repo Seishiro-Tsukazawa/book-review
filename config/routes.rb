@@ -8,4 +8,11 @@ Rails.application.routes.draw do
   
   get 'signup', to: 'users#new'
   resources :users
+  
+  resources :books, only: [:new, :create] do
+    collection do
+      get 'search', to:'books#new'
+      post 'search', to: 'books#create'
+    end
+  end
 end
