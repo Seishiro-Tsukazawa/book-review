@@ -15,4 +15,7 @@ Rails.application.routes.draw do
       post 'search', to: 'books#create'
     end
   end
+  
+  resources :reviews, except: [:index]
+  
 end

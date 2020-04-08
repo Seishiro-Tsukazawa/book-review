@@ -5,10 +5,15 @@
   <%= f.submit '検索', class: "btn" %>
 <% end %>
 
-<% if @results.present? %>
+<% if @books.present? %>
   <ul>
-    <% @results.each do |result| %>
-      <li><p><%= result.title %></p></li>
+    <% @books.each do |book| %>
+      <li><p><%= book.title %></p></li>
+    
+      <%= form_with(model: @book, lacal: true) do |f| %>
+        <%= hidden_field_tag :isbn, book.isbn %>
+        <%= f.submit 'レビューする', class: 'btn' %>
+      <% end %>
     <% end %>
   </ul>
 <% end %>

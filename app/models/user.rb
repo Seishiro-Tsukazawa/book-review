@@ -6,4 +6,6 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :self_introduction, length: { maximum: 500 }
   has_secure_password
+  
+  has_many :reviews
 end
