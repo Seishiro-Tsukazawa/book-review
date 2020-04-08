@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   
   resources :books, only: [:new, :create] do
     collection do
-      get 'search', to:'books#new'
+      get 'search', to: 'books#new'
       post 'search', to: 'books#create'
     end
   end

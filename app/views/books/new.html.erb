@@ -1,0 +1,14 @@
+<%= form_with(url: search_books_path, method: :get, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.text_field :keyword %>
+  </div>
+  <%= f.submit '検索', class: "btn" %>
+<% end %>
+
+<% if @results.present? %>
+  <ul>
+    <% @results.each do |result| %>
+      <li><p><%= result.title %></p></li>
+    <% end %>
+  </ul>
+<% end %>
