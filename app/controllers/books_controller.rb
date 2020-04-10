@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  
+  before_action :require_user_logged_in
   def new
     @books = []
     @keyword = params[:keyword]
@@ -7,7 +7,7 @@ class BooksController < ApplicationController
     if @keyword.present?
       results = RakutenWebService::Books::Book.search({
         title: @keyword,
-        hits: 5
+        hits: 10
       })
       
       results.each do |result|
@@ -20,19 +20,21 @@ class BooksController < ApplicationController
   def create
     @book = Book.find_or_initialize_by(isbn: params[:isbn])
     
-    unless @book.persisted?
+    if @book.persisted?
+      redirect_to new_review_path(@book.isbn)
+    else
       result = RakutenWebService::Books::Book.search(isbn: @book.isbn)
       @item = Book.new(read(result.first))
-      @item.save
-      
-      
+      if @item.save then redirect_to new_review_path(@book.isbn) end
     end
+      
   end
   
   private
   
   def read(result)
     title = result['title']
+    subtitle = result['subtitle']
     author = result['author']
     isbn = result['isbn']
     image = result['mediumImageUrl'].gsub('?_ex=120x120', '')
@@ -40,6 +42,7 @@ class BooksController < ApplicationController
     
     {
       title: title,
+      subtitle: subtitle,
       author: author,
       isbn: isbn,
       image: image

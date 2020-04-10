@@ -1,19 +1,33 @@
 <%= form_with(url: search_books_path, method: :get, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.text_field :keyword %>
-  </div>
-  <%= f.submit '検索', class: "btn" %>
-<% end %>
-
-<% if @books.present? %>
-  <ul>
-    <% @books.each do |book| %>
-      <li><p><%= book.title %></p></li>
+  <div class="form-group row justify-content-center mt-5">
     
-      <%= form_with(model: @book, lacal: true) do |f| %>
-        <%= hidden_field_tag :isbn, book.isbn %>
-        <%= f.submit 'レビューする', class: 'btn' %>
-      <% end %>
+    <div class="offset-sm-1 col-sm-7">
+      <%= f.text_field :keyword, class: 'form-control' %>
+    </div>
+    <label class="col-sm-2 col-sm-form-label">
+      <%= f.submit '検索', class: 'btn btn-light' %>
+    </label>
+    
+  </div>
+<% end %>
+<% if @books.present? %>
+  <div class="row">
+    <% @books.each do |book| %>
+    
+      <div class="card ml-4 mb-2" style="width: 15rem;">
+        <div class="card-header">
+          <img class="card-img-top" width="100" height="400" src=<%= book.image %> alt="">
+        </div>
+        <div class="card-body p-0">
+          <p><%= book.title %></p>
+        </div>
+        <div class="card-footer p-1">
+          <%= form_with(model: @book, lacal: true) do |f| %>
+            <%= hidden_field_tag :isbn, book.isbn %>
+            <%= f.submit 'レビューを作成', class: 'btn btn-outline-info' %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% end %>
