@@ -1,12 +1,47 @@
 <div class="wrapper"> 
   <section id="top">
-    
+    <div class="row bg-light" height="500">
+      <p>アイウエオ</p>
+    </div>
   </section>
   <section id="featured">
-    
+    <div class="row">
+      <p>人気の投稿</p>
+      <% @review_rank.each do |review| %>
+        <div class="card mt-2 ml-3" style="width: 13rem;">
+          <div class="card-header" style="width: 13rem;">
+            <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
+          </div>
+          <div class="card-body">
+            <h6 class="font-weight-bold"><%= review.book.author %></h6>
+            <p>『<%= review.book.title %>』</p>
+          </div>
+          <div class="card-footer">
+            <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </section>
   <section id="latest">
-    
+    <div class="row">
+      <p>最近の投稿</p>
+      <% @reviews.first(4).each do |review| %>
+        <div class="card mt-2 ml-3" style="width: 13rem;">
+          <div class="card-header" style="width: 13rem;">
+            <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
+          </div>
+          <div class="card-body">
+            <h6 class="font-weight-bold"><%= review.book.author %></h6>
+            <p>『<%= review.book.title %>』</p>
+          </div>
+          <div class="card-footer">
+            <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
   </section>
 </div>
   

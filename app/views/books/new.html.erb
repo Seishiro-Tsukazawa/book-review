@@ -16,10 +16,10 @@
     
       <div class="card ml-4 mb-2" style="width: 15rem;">
         <div class="card-header">
-          <img class="card-img-top" width="100" height="400" src=<%= book.image %> alt="">
+          <img class="card-img-top img-fluid"  src=<%= book.image %> alt="">
         </div>
         <div class="card-body p-0">
-          <p><%= book.title %></p>
+          <p>『<%= book.title %>』</p>
         </div>
         <div class="card-footer p-1">
           <%= form_with(model: @book, lacal: true) do |f| %>
