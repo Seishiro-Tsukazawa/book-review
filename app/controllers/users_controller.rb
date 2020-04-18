@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:show, :edit]
+  before_action :require_user_logged_in, only: [:show, :edit, :likes]
   
   def index
   end
 
   def show
     @user=User.find(params[:id])
+    @reviews=@user.reviews.order(id: :desc).page(params[:page]).per(10)
   end
 
   def new
@@ -25,17 +26,18 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user=User.find(params[:id])
+    @user=current_user
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(user_edit_params)
-      flash[:success]="更新に成功しました"
+    @user=current_user
+    @user.assign_attributes(introduction_params)
+    if @user.save
+      flash[:success]="自己紹介を更新しました"
       redirect_to @user
     else
-      flash[:danger]="更新に失敗しました"
-      render edit_user_url
+      flash[:success]="更新に失敗しました"
+      render :edit
     end
   end
 
@@ -44,7 +46,7 @@ class UsersController < ApplicationController
   
   def likes
     @user = User.find(params[:id])
-    @liked_review = @user.fav_reviews
+    @liked_review = @user.fav_reviews.order(id: :desc).page(params[:page]).per(10)
   end
   
   private
@@ -53,7 +55,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
-  def user_edit_params
-    params.require(:user).permit(:name, :email, :self_introduction)
+  def introduction_params
+    params.require(:user).permit(:self_introduction)
   end
 end

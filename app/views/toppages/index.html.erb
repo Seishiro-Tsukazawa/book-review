@@ -1,20 +1,23 @@
-<div class="wrapper"> 
+
   <section id="top">
-    <div class="row bg-light" height="500">
-      <p>アイウエオ</p>
+    <div class="center jumbotron mt-2">
+        <h1 class="display-4 text-center">Book Review</h1>
     </div>
   </section>
   <section id="featured">
+    <div class="mt-2 ml-3">
+      <h3>人気の投稿</h3>
+    </div>
     <div class="row">
-      <p>人気の投稿</p>
+      
       <% @review_rank.each do |review| %>
         <div class="card mt-2 ml-3" style="width: 13rem;">
-          <div class="card-header" style="width: 13rem;">
+          <div class="card-header bg-white" style="height: 19rem;">
             <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
           </div>
           <div class="card-body">
-            <h6 class="font-weight-bold"><%= review.book.author %></h6>
-            <p>『<%= review.book.title %>』</p>
+            <h6 class="font-weight-bold">『<%= review.book.title %>』</h6>
+            <p><%= review.book.author %></p>
           </div>
           <div class="card-footer">
             <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
@@ -24,25 +27,32 @@
     </div>
   </section>
   <section id="latest">
+    <div class="mt-4 ml-3">
+      <h3>最近の投稿</h3>
+    </div>
     <div class="row">
-      <p>最近の投稿</p>
-      <% @reviews.first(4).each do |review| %>
+      
+      <% @reviews.first(10).each do |review| %>
         <div class="card mt-2 ml-3" style="width: 13rem;">
-          <div class="card-header" style="width: 13rem;">
+          <div class="card-header bg-white" style="height: 19rem;">
             <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
           </div>
           <div class="card-body">
-            <h6 class="font-weight-bold"><%= review.book.author %></h6>
-            <p>『<%= review.book.title %>』</p>
+            <h6 class="font-weight-bold">『<%= review.book.title %>』</h6>
+            <p><%= review.book.author %></p>
           </div>
-          <div class="card-footer">
+          <div class="card-footer text-center>
             <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
           </div>
         </div>
+        
       <% end %>
       
     </div>
+    <div class="row mt-4 ml-1">
+      <%= paginate @reviews %>
+    </div>
   </section>
-</div>
+
   
 

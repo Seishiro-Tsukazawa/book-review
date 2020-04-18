@@ -1,4 +1,5 @@
 class Book < ApplicationRecord
+  #別ファイルでユニーク制約
   validates :title, :author, :publisher, :isbn, presence: true
-  has_many :reviews, dependent: :destroy
+  has_many :reviews
 end

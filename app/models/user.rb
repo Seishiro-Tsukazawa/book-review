@@ -5,11 +5,19 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
   validates :self_introduction, length: { maximum: 500 }
+  #validates :password, presence: true
+  
+  attr_accessor :current_password
+  validates :password, presence: { if: :current_password }
+  
+  
+  
+  #別ファイルでユニーク制約[:name, :email]
   has_secure_password
   
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
   
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :fav_reviews, through: :favorites, source: :review
   
   def like(review)

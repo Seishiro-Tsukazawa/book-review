@@ -5,9 +5,9 @@ class BooksController < ApplicationController
     @keyword = params[:keyword]
     
     if @keyword.present?
-      results = RakutenWebService::Books::Book.search({
-        title: @keyword,
-        hits: 10
+      results = RakutenWebService::Books::Total.search({
+        keyword: @keyword,
+        hits: 16
       })
       
       results.each do |result|
@@ -23,8 +23,8 @@ class BooksController < ApplicationController
     if @book.persisted?
       redirect_to new_review_path(@book.isbn)
     else
-      p result = RakutenWebService::Books::Book.search(isbn: @book.isbn)
-      p @item = Book.new(read_for_save(result.first))
+      result = RakutenWebService::Books::Book.search(isbn: @book.isbn)
+      @item = Book.new(read_for_save(result.first))
       if @item.save then redirect_to new_review_path(@book.isbn) end
     end
       
@@ -34,7 +34,6 @@ class BooksController < ApplicationController
   
   def read(result)
     title = result['title']
-    subtitle = result['subtitle']
     author = result['author']
     isbn = result['isbn']
     image = result['mediumImageUrl'].gsub('?_ex=120x120', '')
@@ -42,7 +41,6 @@ class BooksController < ApplicationController
     
     {
       title: title,
-      subtitle: subtitle,
       author: author,
       isbn: isbn,
       image: image
@@ -60,7 +58,6 @@ class BooksController < ApplicationController
     genre_name = genrename.first['parents'][0]['booksGenreName']
     
     title = result['title']
-    subtitle = result['subtitle']
     author = result['author']
     isbn = result['isbn']
     publisher = result['publisherName']
@@ -69,7 +66,6 @@ class BooksController < ApplicationController
     
     {
       title: title,
-      subtitle: subtitle,
       author: author,
       genre: genrename,
       publisher: publisher,

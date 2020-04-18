@@ -1,3 +1,7 @@
+<div class="row mt-3">
+    <h4>レビューする本を選択</h4>
+</div>
+
 <%= form_with(url: search_books_path, method: :get, local: true) do |f| %>
   <div class="form-group row justify-content-center mt-5">
     
@@ -15,11 +19,12 @@
     <% @books.each do |book| %>
     
       <div class="card ml-4 mb-2" style="width: 15rem;">
-        <div class="card-header">
-          <img class="card-img-top img-fluid"  src=<%= book.image %> alt="">
+        <div class="card-header text-center bg-white" style="height: 22rem">
+          <img class="card-img-top" max-height="290"  src=<%= book.image %> alt="">
         </div>
         <div class="card-body p-0">
-          <p>『<%= book.title %>』</p>
+          <h6 class="font-weight-bold">『<%= book.title %>』</h6>
+          <p>著者：<%= book.author %></p>
         </div>
         <div class="card-footer p-1">
           <%= form_with(model: @book, lacal: true) do |f| %>

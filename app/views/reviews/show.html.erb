@@ -1,5 +1,6 @@
-<div class="d-flex flex-row mt-5 justify-content-center">
-  <div class="col-sm-2">
+<% if @review.user.id == current_user.id %>
+<div class="d-sm-flex flex-row mt-5 justify-content-center">
+  <div class="col-sm-2 mb-2">
     <div class="card">
         <img src="<%= gravatar_url(@review.user, { size: 300 }) %>", class="card-img-top rounded img-fluid" alt="">
         <div class="card-body">
@@ -7,37 +8,112 @@
         </div>
       </div>
   </div>
-  <div class="offset-sm-1 col-sm-7">
+  <div class="offset-sm-1 col-sm-6">
     <div class="row">
-      <aside class="col-sm-3">
-        <img width="130" height="200" src="<%= @review.book.image %>" alt="">
-      </aside>
-      <div class="offset-sm-1 col-sm-8">
-        <h4>『<%= @review.book.title %>』</h4>
+      <div class="media">
+        <img src="<%= @review.book.image %>", width="150", height="200" class="mr-3" alt="">
+        <div class="media-body">
+          <h5 class="font-weight-bold">『<%= @review.book.title %>』</h5>
+          <p>著者：<%= @review.book.author %></p>
+        </div>
       </div>
     </div>
-    <div class="row mt-3 ml-2">
-      <%= @review.content %>
+    <div class="row">
+        <h5 class="mt-2">レビュー内容</h5>
     </div>
-    <div>
-      <%= render 'reviews/like_button', review: @review %>
+    <div class="row border">
+      <div class="ml-2">
+        <%= safe_join(@review.content.split("\n"),tag(:br)) %>
+      </div>
+    </div>
+    <div class="row justify-content-end mt-2 mr-1">
+      <div>
+        <%= render 'reviews/like_button', review: @review %>
+      </div>
+    </div>
+      <div class="row justify-content-end mt-2 mr-1">
+        <%= link_to '編集', edit_review_path, class: 'btn btn-success' %>
+      </div>
+  </div>
+  <div class="offset-sm-1 col-sm-2">
+    <div class="border-left">
+      <div class="ml-3">
+        <p>過去の投稿</p>
+      </div>
+      <% @reviews.first(3).each do |review| %>
+      <div class="card mt-2 ml-3" style="width: 12rem;">
+        <div class="card-header bg-white" style="width: 12rem;">
+          <img class="card-img-top img-fluid rounded", src=<%= review.book.image %> alt = "">
+        </div>
+        <div class="card-body p-0">
+          <h6 class="font-weight-bold"><%= review.book.author %></h6>
+          <p>『<%= review.book.title %>』</p>
+        </div>
+        <div class="card-footer p-0 text-center" style="height: 2rem;">
+          <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% else %>
+  <div class="d-sm-flex flex-row mt-5 justify-content-center">
+  <div class="col-sm-2 mb-2">
+    <div class="card">
+        <img src="<%= gravatar_url(@review.user, { size: 300 }) %>", class="card-img-top rounded img-fluid" alt="">
+        <div class="card-body">
+          <h5 class="card-title"><%= @review.user.name %></h5>
+        </div>
+        <div class="card-footer">
+          <%= link_to '詳細ページ', user_path(@review.user.id) %>
+        </div>
+      </div>
+  </div>
+  <div class="offset-sm-1 col-sm-6">
+    <div class="row">
+      <div class="media">
+        <img src="<%= @review.book.image %>", width="150", height="200" class="mr-3" alt="">
+        <div class="media-body">
+          <h5 class="font-weight-bold">『<%= @review.book.title %>』</h5>
+          <p>著者：<%= @review.book.author %></p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <h5 class="mt-2">レビュー内容</h5>
+    </div>
+    <div class="row border">
+      <div class="ml-2">
+        <%= safe_join(@review.content.split("\n"),tag(:br)) %>
+      </div>
+    </div>
+    <div class="row justify-content-end mt-2 mr-1">
+      <div>
+        <%= render 'reviews/like_button', review: @review %>
+      </div>
     </div>
   </div>
   <div class="offset-sm-1 col-sm-2">
-    <% @reviews.first(3).each do |review| %>
-    <div class="card mt-2 ml-3" style="width: 10rem; height: 7rem;">
-      <div class="card-header" style="width: 5rem;">
-        <img class="card-img-top img-fluid rounded", width="100", height="140", src=<%= review.book.image %> alt = "">
+    <div class="border-left">
+      <div class="ml-3">
+        <p>過去の投稿</p>
       </div>
-      <div class="card-body">
-        <h6 class="font-weight-bold"><%= review.book.author %></h6>
-        <p>『<%= review.book.title %>』</p>
+      <% @reviews.first(3).each do |review| %>
+      <div class="card mt-2 ml-3" style="width: 12rem;">
+        <div class="card-header bg-white" style="width: 12rem;">
+          <img class="card-img-top img-fluid rounded", src=<%= review.book.image %> alt = "">
+        </div>
+        <div class="card-body p-0">
+          <h6 class="font-weight-bold">『<%= review.book.title %>』</h6>
+          <p><%= review.book.author %></p>
+        </div>
+        <div class="card-footer p-0 text-center" style="height: 2rem;">
+          <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
+        </div>
       </div>
-      <div class="card-footer">
-        <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
-      </div>
+      <% end %>
     </div>
-  <% end %>
-    
   </div>
 </div>
+<% end %>

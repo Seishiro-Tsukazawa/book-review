@@ -7,11 +7,14 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   
   get 'signup', to: 'users#new'
-  resources :users do
+  resources :users, only: [:show, :new, :create, :edit, :update] do
     member do
       get :likes
     end
   end
+  
+  resources :password, only: [:show, :edit, :update]
+  
   
   resources :books, only: [:new, :create] do
     collection do
@@ -20,7 +23,9 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :reviews, except: [:index]
+  resources :reviews, except: [:index] do
+    get 'search', on: :collection
+  end
   
   resources :favorites, only: [:create, :destroy]
   

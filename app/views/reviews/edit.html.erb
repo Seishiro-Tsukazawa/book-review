@@ -13,8 +13,13 @@
   <div class="form-group col-sm-8 mt-5">
     <%= form_with(model: @review, local: true) do |f| %>
       <%= f.text_area :content, class: 'form-control' %>
-      <div class='float-right mt-2'>
+      <div class='d-flex align-items-end flex-column mt-1'>
         <%= f.submit '更新', class: 'btn btn-primary' %>
+        <div class="mt-1">
+          <% if current_user == @review.user %>
+            <%= link_to "削除", @review, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger' %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :require_user_logged_in, only: [:new, :create, :edit, :update, :destroy]
+  before_action :correct_user, only: [:destroy]
   def new
     @book = Book.find_by(isbn: params[:format])
     @review = current_user.reviews.build
@@ -38,6 +39,19 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
+    @review.destroy
+    flash[:success]="削除しました"
+    redirect_to user_path(current_user)
+  end
+  
+  def search
+    
+    if params[:search].present?
+      book = Book.where("title Like? OR author Like?", "%#{params[:search]}%", "%#{params[:search]}%")
+      @reviews = Review.where(book_id: book.ids)
+    else
+      @reviews = Review.all
+    end
   end
   
   private
@@ -49,4 +63,12 @@ class ReviewsController < ApplicationController
   def edit_review_params
     params.require(:review).permit(:content)
   end
+
+  def correct_user
+    @review=current_user.reviews.find_by(id: params[:id])
+    unless @review
+      redirect_to root_url
+    end
+  end
+  
 end

@@ -1,20 +1,23 @@
-<div class="row">
-  <div class="col-sm-6 offset-sm-3">
-    <%= form_with(model: @user, local: true) do |f| %>
-      
-      <div class="form-group">
-        <%= f.label :name, '名前' %>
-        <%= f.text_field :name, value: @user.name, class: "form-control" %>
+<div class="row mt-3">
+    <aside class="col-sm-3">
+      <div class="card">
+        <img src="<%= gravatar_url(@user, { size: 300 }) %>", class="card-img-top rounded img-fluid" alt="">
+        <div class="card-body">
+          <h5 class="card-title"><%= @user.name %></h5>
+        </div>
       </div>
-      <div class="form-group">
-        <%= f.label :email, 'メールアドレス' %>
-        <%= f.email_field :email, value: @user.email, class: "form-control" %>
+    </aside>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-8">
+      <%= form_with(model: @user, local: true) do |f| %>
+      <%= render 'layouts/error_messages', model: @user %>
+        <%= f.label :self_introduction, '自己紹介'%>
+        <%= f.text_area :self_introduction, class: 'form-control', rows: "5" %>
+      <div class="row justify-content-end mt-2 mr-1">
+        <%= f.submit '更新', class: "btn btn-primary" %>
       </div>
-      <div class="form-group">
-        <%= f.label :self_introduction, '自己紹介' %>
-        <%= f.text_area :self_introduction, value: @user.self_introduction, class: "form-control" %>
-      </div>
-      <%= f.submit '更新', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
 </div>
+  
+  
