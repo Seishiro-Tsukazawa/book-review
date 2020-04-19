@@ -16,8 +16,10 @@
             <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
           </div>
           <div class="card-body">
+            <p><%= review.user.name %></p>
             <h6 class="font-weight-bold">『<%= review.book.title %>』</h6>
             <p><%= review.book.author %></p>
+            
           </div>
           <div class="card-footer">
             <%= link_to 'レビューを見る', review_path(review.id), class: "btn" %>
@@ -38,6 +40,7 @@
             <img class="card-img-top img-fluid rounded", width="50", height="80", src=<%= review.book.image %> alt = "">
           </div>
           <div class="card-body">
+            <p><%= review.user.name %></p>
             <h6 class="font-weight-bold">『<%= review.book.title %>』</h6>
             <p><%= review.book.author %></p>
           </div>
