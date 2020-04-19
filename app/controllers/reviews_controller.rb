@@ -2,7 +2,8 @@ class ReviewsController < ApplicationController
   before_action :require_user_logged_in, only: [:new, :create, :edit, :update, :destroy]
   before_action :correct_user, only: [:destroy, :edit]
   def new
-    @book = Book.find_by(isbn: params[:format])
+    @book=Book.find_by(isbn: params[:format])
+    
     @review = current_user.reviews.build
   end
 
@@ -14,7 +15,7 @@ class ReviewsController < ApplicationController
       redirect_to @review
     else
       flash[:danger] = "投稿できませんでした"
-      render :new
+      redirect_back(fallback_location: root_url)
     end
   end
 
@@ -34,7 +35,7 @@ class ReviewsController < ApplicationController
       redirect_to @review
     else
       flash[:danger]="更新に失敗しました"
-      render edit_review_url
+      render :edit
     end
   end
 

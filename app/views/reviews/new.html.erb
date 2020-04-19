@@ -1,4 +1,5 @@
  <div class="row">
+   
   <aside class="col-sm-4 mt-5">
     <div class="card ml-4 mb-2" style="width: 15rem;">
       <div class="card-header bg-white text-center" style="height: 21rem;">
@@ -12,7 +13,8 @@
   </aside>
   <div class="form-group offset-sm-1 col-sm-6 mt-5 ml-2">
     <%= form_with(model: @review, local: true) do |f| %>
-      <%= f.text_area :content, class: 'form-control', rows: "17" %>
+    
+      <%= f.text_area :content, class: 'form-control', rows: "17", placeholder: "最大2000文字"%>
       <%= f.hidden_field :book_id,  :value => @book.id %>
       <div class='float-right mt-2'>
         <%= f.submit '投稿', class: 'btn btn-primary' %>

@@ -49,25 +49,17 @@ class BooksController < ApplicationController
   end
   
   def read_for_save(result)
-    
-    genrename = RakutenWebService::Books::Genre.search({
-      booksGenreId: result['booksGenreId'][0..11],
-      formatVersion: 2
-      })
-      
-    genre_name = genrename.first['parents'][0]['booksGenreName']
+  
     
     title = result['title']
     author = result['author']
     isbn = result['isbn']
     publisher = result['publisherName']
-    genrename = genre_name
     image = result['mediumImageUrl'].gsub('?_ex=120x120', '')
     
     {
       title: title,
       author: author,
-      genre: genrename,
       publisher: publisher,
       isbn: isbn,
       image: image
