@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :reviews, except: [:index] do
+  resources :reviews, except: [:index, :delete] do
     get 'search', on: :collection
   end
   

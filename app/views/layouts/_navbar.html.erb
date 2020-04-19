@@ -7,7 +7,7 @@
       </button>
       <div class="">
         <%= form_with(url: search_reviews_path, local: true, method: :get) do |f| %>
-          <%= f.text_field :search, placeholder: "レビューを検索" %>
+          <%= f.text_field :search, class: "form-contlor", placeholder: "レビューを見る本を検索" %>
           <%= f.submit '検索', class: "btn btn-outline-dark p-1" %>
         <% end %>
       </div>

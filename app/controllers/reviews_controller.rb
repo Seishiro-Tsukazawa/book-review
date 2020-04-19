@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :require_user_logged_in, only: [:new, :create, :edit, :update, :destroy]
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:destroy, :edit]
   def new
     @book = Book.find_by(isbn: params[:format])
     @review = current_user.reviews.build
