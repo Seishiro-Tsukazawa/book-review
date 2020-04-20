@@ -4,7 +4,7 @@ class BooksController < ApplicationController
     @books = []
     @keyword = params[:keyword]
     
-    if @keyword.present?
+    if @keyword.present? && @keyword.length > 1
       results = RakutenWebService::Books::Total.search({
         keyword: @keyword,
         hits: 16

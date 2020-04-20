@@ -9,13 +9,15 @@ class ReviewsController < ApplicationController
 
   def create
     @review = current_user.reviews.build(review_params)
+    @book_id = review_params[:book_id]
     
     if @review.save
       flash[:success] = "投稿しました"
       redirect_to @review
     else
       flash[:danger] = "投稿できませんでした"
-      redirect_back(fallback_location: root_url)
+      @book = Book.find_by(id: @book_id)
+      render :new
     end
   end
 
