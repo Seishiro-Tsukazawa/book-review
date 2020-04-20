@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:edit, :likes]
-  
+  before_action :correct_user, only: [:edit, :update]
   def index
   end
 
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user=current_user
+    @user = User.find_by(id: params[:id])
   end
 
   def update
@@ -39,9 +39,6 @@ class UsersController < ApplicationController
       flash[:success]="更新に失敗しました"
       render :edit
     end
-  end
-
-  def destroy
   end
   
   def likes
@@ -57,5 +54,10 @@ class UsersController < ApplicationController
   
   def introduction_params
     params.require(:user).permit(:self_introduction)
+  end
+  
+  def correct_user
+    @user = User.find_by(id: params[:id])
+    redirect_to root_url unless @user == current_user
   end
 end
