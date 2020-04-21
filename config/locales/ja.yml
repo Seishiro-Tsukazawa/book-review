@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      review: レビュー
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        self_introduction: 自己紹介
+      review:
+        content: レビュー内容

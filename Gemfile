@@ -65,3 +65,5 @@ group :production do
 end
 
 gem 'rails_12factor', group: :production
+
+gem 'rails-i18n'
